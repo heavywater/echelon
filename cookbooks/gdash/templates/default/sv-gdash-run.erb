@@ -1,0 +1,5 @@
+#!/bin/sh
+exec 2>&1
+cd <%= node.gdash.base %>
+export RACK_ENV=<%= node.chef_environment %>
+exec chpst -u www-data:www-data -l <%= node.gdash.base %>/lock -- bin/unicorn -c /etc/unicorn/gdash.app config.ru --env <%= node.chef_environment %>

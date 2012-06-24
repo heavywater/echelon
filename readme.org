@@ -1,0 +1,42 @@
+* Echelon
+
+  Echelon is a system comprised of multiple loosely couple coupled
+  components designed for scalable monitoring and metrics.
+
+  Echelon allows customizable alerting, metrics collection, and dashboard generation.
+
+  It was originally discussed at ChefConf 2012. Video and slides of this
+  presentation are available:
+  - [[http://www.youtube.com/watch?v=BXxtdE-Paco]]
+  - [[http://gestalt-informant.heroku.com/]]
+
+** vagrant support
+   While a monitoring system is obviously most effective with more than a
+   single system, you can use 'vagrant up' to launch a virtualbox
+   instance based on Ubuntu Precise Pangolin 12.04 amd64 to experiment
+   with Echelon.
+
+** chef cookbooks
+   Echelon uses Chef search in several ares to integrate components. This
+   will not be available when using vagrant and chef-solo to experiment.
+   Besides various cookbook dependencies, the following Chef cookbooks
+   are used:
+*** sensu
+    Sensu ( [[https://github.com/sensu]] ) is used for monitoring and
+    alerting. The sensu cookbook used is the official chef cookbook found
+    at [[https://github.com/sensu/sensu-chef]] with minor modifications to
+    deliver the sensu-stdin-metrics client used for sending metrics to
+    graphite via the local sensu socket.
+*** collectd and collectd_plugins
+    Collectd is used for simple system statistics collection. These
+    cookbooks setup the core of collectd  and plugins used for
+    gathering system data and writing to graphite.
+*** graphite
+    Graphite is the metrics collection system used and allows flexible,
+    intelligent metrics gathering. [[http://graphite.readthedocs.org/en/latest/]]
+*** gdash
+    Gdash is a lightweight graphite frontend based on the twitter
+    bootstrap ( [[https://github.com/ripienaar/gdash]] ). This cookbook
+    configures gdash and provides Chef resource that can be used for
+    building custom dashboards.
+

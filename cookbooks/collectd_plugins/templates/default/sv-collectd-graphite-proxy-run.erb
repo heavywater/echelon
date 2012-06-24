@@ -1,0 +1,3 @@
+#!/bin/sh
+exec 2>&1
+exec chpst -u nobody:nogroup node <%= @options[:script_path] %> 127.0.0.1

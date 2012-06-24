@@ -1,0 +1,75 @@
+{ "id": "config",
+  "handlers": {
+    "default": {
+      "type": "set",
+      "handlers": [
+        "debug"
+      ]
+    },
+    "debug": {
+      "type": "pipe",
+      "command": "/etc/sensu/handlers/default"
+    },
+    "campfire": {
+      "type": "pipe",
+      "command": "/etc/sensu/handlers/campfire"
+    },
+    "pagerduty": {
+      "type": "pipe",
+      "command": "/etc/sensu/handlers/pagerduty"
+    }
+  },
+  "checks": {
+    "check_zombies": {
+      "publish": false,
+      "notification": "zombie processes piling up",
+      "command": "/etc/sensu/plugins/processes/check-procs -s Z -w 5 -c 10",
+      "subscribers": [
+        "sensu_client"
+      ],
+      "occurrences": 5,
+      "interval": 60,
+      "refresh": 1800
+    },
+    "check_procs_sshd": {
+      "notification": "sshd daemon is not running.",
+      "command": "/etc/sensu/plugins/processes/check-procs -p '/usr/sbin/sshd' -C 1",
+      "subscribers": [
+        "openssh"
+      ],
+      "occurrences": 5,
+      "interval": 60,
+      "refresh": 1800
+    },
+    "check_mtime_chef": {
+      "notification": "chef-client has not run for over 5 hours",
+      "command": "/etc/sensu/plugins/files/check-mtime -f /var/log/chef/chef-client.log -w 14400 -c 18000",
+      "subscribers": [
+        "chef-client::cron"
+      ],
+      "occurrences": 5,
+      "interval": 60,
+      "refresh": 1800
+    },
+    "check_file_tail_chef": {
+      "notification": "chef-client encountered an error",
+      "command": "/etc/sensu/plugins/files/check-tail -f /var/log/chef/chef-client.log -P FATAL -w",
+      "subscribers": [
+        "chef-client::cron"
+      ],
+      "occurrences": 5,
+      "interval": 60,
+      "refresh": 1800
+    }
+  },
+  "metrics": {
+    "type": "amqp",
+    "exchange": {
+      "name": "graphite",
+      "type": "topic",
+      "durable": true,
+      "key": "recognizer"
+    },
+    "send_only_check_output": true
+  }
+}
