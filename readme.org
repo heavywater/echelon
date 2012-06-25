@@ -16,6 +16,13 @@
    instance based on Ubuntu Precise Pangolin 12.04 amd64 to experiment
    with Echelon.
 
+** Berkshelf support
+   Berkshelf is a tool for managing cookbooks and their dependencies
+   similar to bundler for ruby gems, see [[http://berkshelf.com/]]. To
+   use:
+   - gem install berkshelf
+   - knife berks install --shims
+
 ** chef cookbooks
    Echelon uses Chef search in several ares to integrate components. This
    will not be available when using vagrant and chef-solo to experiment.
