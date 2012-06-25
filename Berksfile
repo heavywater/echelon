@@ -1,6 +1,6 @@
 cookbook 'apache2'
 cookbook 'apt'
-cookbook 'build-essental'
+cookbook 'build-essential'
 cookbook 'collectd'
 cookbook 'collectd_plugins'
 cookbook 'discovery'
