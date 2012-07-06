@@ -25,7 +25,7 @@ if node.platform == "ubuntu" && node.platform_version <= "10.04"
 elsif node.platform == "debian"
   include_recipe "redis::server_source"
 else
-  include_recipe "redis::server"
+  include_recipe "redis::server_package"
 end
 
 if node.sensu.firewall

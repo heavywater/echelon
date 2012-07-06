@@ -43,7 +43,7 @@ if node.sensu.ssl
   end
 end
 
-if node.platform == "ubuntu" && %w[10.04 11.04].include?(node.lsb.release)
+if node.platform == "ubuntu" && %w[10.04 10.10 11.04].include?(node.lsb.release)
   include_recipe "apt"
 
   apt_repository "esl" do
@@ -80,8 +80,4 @@ if node.sensu.firewall
   include_recipe "iptables"
 
   iptables_rule "port_rabbitmq"
-end
-
-service "rabbitmq-server" do
-  action :restart
 end
