@@ -110,7 +110,3 @@ sensu_config node.name do
   subscriptions node.roles
   data_bag data_bag_item("sensu", "config")
 end
-
-cookbook_file "/usr/local/bin/sensu-stdin-metrics-client.rb" do
-  mode "755"
-end
