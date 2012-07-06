@@ -20,3 +20,7 @@
 # handler & plugin dependencies
 # eg. node.sensu.client.foo = "bar"
 # eg. gem_package "spice"
+
+cookbook_file "/usr/local/bin/sensu-stdin-metrics-client.rb" do
+  mode "755"
+end
