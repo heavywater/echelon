@@ -19,5 +19,11 @@ Vagrant::Config.run do |config|
     chef.cookbooks_path = "cookbooks"
     chef.roles_path = "roles"
     chef.add_role "echelon"
+    chef.json = {
+      :logstash => {
+        :elasticsearch_ip => "127.0.0.1",
+        :graphite_ip => "127.0.0.1"
+      }
+    }
   end
 end
