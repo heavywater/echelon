@@ -6,10 +6,11 @@ run_list [
           "role[graphite_server]",
           "role[collectd_server]",
           "role[sensu_server]",
+          "role[logstash_server]",
           "role[gdash]"
          ]
 
-override_attributes(
+default_attributes(
                     :gdash => {
                       :basic_auth => true,
                       :username => "admin",
