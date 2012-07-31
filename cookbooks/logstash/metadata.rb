@@ -8,3 +8,7 @@ version          "0.2.1"
 %w{apache2 php build-essential git runit python java ant logrotate rabbitmq}.each do |cb|
   depends cb
 end
+
+%w{iptables}.each do |cb|
+  suggests cb
+end

@@ -1,0 +1,7 @@
+# Kibana
+-A FWR -p tcp -m tcp -m state --state NEW --dport 80 -j ACCEPT -m comment --comment "apache2: Kibana Logstash WebUI (php)"
+
+
+<% @logstash_server_inputs.each do |port| %>
+-A FWR -p tcp -m tcp -m state --state NEW --dport <%= port %> -j ACCEPT -m comment --comment "Logstash Server Input (JSON/TCP)"
+<% end unless @logstash_server_inputs.nil? -%>

@@ -3,6 +3,9 @@
 # Recipe:: agent
 #
 #
+
+return if node.roles.include? "logstash_server"
+
 include_recipe "logstash::default"
 
 # check if running chef-solo
@@ -14,7 +17,7 @@ else
     logstash_server_ip = logstash_server_results[0]['ipaddress']
   end
 end
-  
+
 directory "#{node['logstash']['basedir']}/agent" do
   action :create
   mode "0755"
@@ -107,4 +110,3 @@ logrotate_app "logstash" do
   create "664 #{node['logstash']['user']} #{node['logstash']['user']}"
   notifies :restart, "service[rsyslog]"
 end
-

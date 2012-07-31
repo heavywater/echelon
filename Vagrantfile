@@ -13,7 +13,7 @@ Vagrant::Config.run do |config|
   config.vm.forward_port 80, 8000
   config.vm.forward_port 8080, 8080
   config.vm.forward_port 9001, 9001
-  config.vm.forward_port 9292, 9292
+  config.vm.forward_port 9292, 9292 # gdash
   config.vm.provision :chef_solo do |chef|
     chef.data_bags_path = "data_bags"
     chef.cookbooks_path = "cookbooks"
@@ -21,6 +21,9 @@ Vagrant::Config.run do |config|
     chef.add_role "echelon"
     chef.json = {
       :logstash => {
+        :agent => {
+          :server_ipaddress => "127.0.0.1"
+        },
         :elasticsearch_ip => "127.0.0.1",
         :graphite_ip => "127.0.0.1"
       }
