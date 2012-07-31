@@ -3,7 +3,7 @@
 # Manual changes will be lost
 input {
 
-  <% if  node['logstash']['agent']['inputs'].empty? -%>
+  <% if node['logstash']['agent']['inputs'].empty? -%>
   file {
     type => "sample-logs"
     path => ["/var/log/*.log"]
