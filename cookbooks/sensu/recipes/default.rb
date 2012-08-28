@@ -37,7 +37,7 @@ when "centos", "redhat"
 
   yum_repository "sensu" do
     repo = node.sensu.package.unstable ? "yum-unstable" : "yum"
-    url "http://repos.sensuapp.org/#{repo}/el/$releasever/$basearch/"
+    url "http://repos.sensuapp.org/#{repo}/el/#{node['platform_version'].to_i}/$basearch/"
     action :add
   end
 end
@@ -53,8 +53,14 @@ else
   end
 end
 
-gem_package "sensu-plugin" do
-  version node.sensu.plugin.version
+directory File.join(node.sensu.directory, "conf.d") do
+  recursive true
+end
+
+directory node.sensu.log.directory do
+  recursive true
+  owner "sensu"
+  mode 0755
 end
 
 if node.sensu.sudoers
@@ -64,17 +70,7 @@ if node.sensu.sudoers
   end
 end
 
-directory File.join(node.sensu.directory, "conf.d") do
-  recursive true
-end
-
 include_recipe "sensu::dependencies"
-
-directory node.sensu.log.directory do
-  recursive true
-  owner "sensu"
-  mode 0755
-end
 
 remote_directory File.join(node.sensu.directory, "plugins") do
   files_mode 0755
