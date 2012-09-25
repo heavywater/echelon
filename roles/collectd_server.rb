@@ -1,7 +1,8 @@
 name "collectd_server"
 description "collectd system statistics server"
 
-run_list [
+run_list ["recipe[apt]",
+          "recipe[python]",
           "recipe[collectd::server]",
           "recipe[iptables]",
           "recipe[collectd::firewall]",
