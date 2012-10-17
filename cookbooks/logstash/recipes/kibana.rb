@@ -1,7 +1,6 @@
-include_recipe "git"
 include_recipe "apache2"
-include_recipe "apache2::mod_php5"
-include_recipe "php::module_curl"
+include_recipe "git"
+
 
 
 if Chef::Config[:solo]
@@ -15,11 +14,7 @@ else
   end
 end
 
-kibana_version = node['logstash']['kibana']['sha']
-
-apache_module "php5" do
-  action :enable
-end
+kibana_version = node['logstash']['kibana']['reference']
 
 apache_site "default" do
   enable false
@@ -39,13 +34,6 @@ git "#{node['logstash']['basedir']}/kibana/#{kibana_version}" do
   group node['logstash']['group']
 end
 
-if platform? "centos", "redhat"
-  arch = node['kernel']['machine']    == "x86_64" ? "64" : ""
-  file '/etc/httpd/mods-available/php5.load' do
-    content "LoadModule php5_module /usr/lib#{arch}/httpd/modules/libphp5.so"
-  end
-end
-
 link "#{node['logstash']['basedir']}/kibana/current" do
   to "#{node['logstash']['basedir']}/kibana/#{kibana_version}"
   notifies :restart, "service[apache2]"
@@ -57,14 +45,15 @@ template "#{node['apache']['dir']}/sites-available/kibana" do
             :server_name => node['logstash']['kibana']['server_name'])
 end
 
-apache_site "kibana"
-
-template "#{node['logstash']['basedir']}/kibana/current/config.php" do
-  source node['logstash']['kibana']['config']
-  owner node['logstash']['user']
-  group node['logstash']['group']
-  mode "0755"
-  variables(:es_server_ip => es_server_ip)
+case kibana_version
+when "php-deprecated"
+  include_recipe "logstash::kibana-php"
+when "kibana-ruby"
+  include_recipe "logstash::kibana-ruby"
+else
+  raise "unknown kibana branch reference"
 end
+
+apache_site "kibana"
 
 service "apache2"

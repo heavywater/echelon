@@ -5,14 +5,16 @@
 #
 include_recipe "logstash::default"
 
-# check if running chef-solo
+# check if running chef-solo.  If not, detect the logstash server/ip by role.  If I can't do that, fall back to using ['logstash']['agent']['server_ipaddress']
 if Chef::Config[:solo]
   logstash_server_ip = node['logstash']['agent']['server_ipaddress']
-else
-  logstash_server_results = search(:node, "roles:#{node['logstash']['agent']['server_role']}")
-  unless logstash_server_results.empty?
-    logstash_server_ip = logstash_server_results[0]['ipaddress']
-  end
+else 
+logstash_server_results = search(:node, "roles:#{node['logstash']['agent']['server_role']}")
+    unless logstash_server_results.empty?
+        logstash_server_ip = logstash_server_results[0]['ipaddress']
+    else 
+        logstash_server_ip = node['logstash']['agent']['server_ipaddress']
+    end
 end
   
 directory "#{node['logstash']['basedir']}/agent" do
@@ -51,7 +53,18 @@ end
 
 
 if platform?  "debian", "ubuntu"
-  runit_service "logstash_agent"
+  if node["platform_version"] == "12.04"
+    template "/etc/init/logstash_agent.conf" do
+      mode "0644"
+      source "logstash_agent.conf.erb"
+    end
+    service "logstash_agent" do
+      provider Chef::Provider::Service::Upstart
+      action [ :enable, :start ]
+    end
+  else
+    runit_service "logstash_agent"
+  end
 elsif platform? "redhat", "centos", "amazon", "fedora"
   template "/etc/init.d/logstash_agent" do
     source "init.erb"
@@ -101,7 +114,7 @@ template "#{node['logstash']['basedir']}/agent/etc/shipper.conf" do
 end
 
 logrotate_app "logstash" do
-  path "/var/log/logstash/*.log"
+  path "#{node['logstash']['basedir']}/agent/log/*.log"
   frequency "daily"
   rotate "30"
   create "664 #{node['logstash']['user']} #{node['logstash']['user']}"
