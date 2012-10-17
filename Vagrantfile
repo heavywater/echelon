@@ -7,9 +7,10 @@ Vagrant::Config.run do |config|
     echelon.vm.box = "precise64"
     echelon.vm.box_url = "https://s3.amazonaws.com/hw-vagrant/precise64.box"
     echelon.vm.forward_port 80, 8000
-    echelon.vm.forward_port 8080, 8080
-    echelon.vm.forward_port 9001, 9001
-    echelon.vm.forward_port 9292, 9292
+    echelon.vm.forward_port 8080, 8080 # Sensu
+    echelon.vm.forward_port 5601, 5601 # Kibana
+    echelon.vm.forward_port 9001, 9001 # Graphite
+    echelon.vm.forward_port 9292, 9292 # Gdata
     echelon.vm.provision :chef_solo do |chef|
       chef.data_bags_path = "data_bags"
       chef.cookbooks_path = "cookbooks"
