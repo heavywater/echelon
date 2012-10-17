@@ -6,7 +6,8 @@ run_list [
           "role[graphite_server]",
           "role[collectd_server]",
           "role[sensu_server]",
-          "role[gdash]"
+          "role[gdash]",
+          "role[logstash_server]"
          ]
 
 override_attributes(

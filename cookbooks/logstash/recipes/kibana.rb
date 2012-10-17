@@ -1,3 +1,4 @@
+include_recipe "git"
 include_recipe "apache2"
 include_recipe "apache2::mod_php5"
 include_recipe "php::module_curl"
@@ -56,7 +57,7 @@ template "#{node['apache']['dir']}/sites-available/kibana" do
             :server_name => node['logstash']['kibana']['server_name'])
 end
 
-apache_site "kibana" 
+apache_site "kibana"
 
 template "#{node['logstash']['basedir']}/kibana/current/config.php" do
   source node['logstash']['kibana']['config']
