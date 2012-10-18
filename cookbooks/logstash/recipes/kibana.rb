@@ -1,8 +1,6 @@
 include_recipe "apache2"
 include_recipe "git"
 
-
-
 if Chef::Config[:solo]
   es_server_ip = node['logstash']['elasticsearch_ip']
 else
@@ -14,28 +12,26 @@ else
   end
 end
 
-kibana_version = node['logstash']['kibana']['reference']
 
 apache_site "default" do
   enable false
 end
 
-directory "#{node['logstash']['basedir']}/kibana/#{kibana_version}" do
+directory node['logstash']['kibana']['install_dir'] do
   owner node['logstash']['user']
   group node['logstash']['group']
   recursive true
 end
-
-git "#{node['logstash']['basedir']}/kibana/#{kibana_version}" do
+git node['logstash']['kibana']['install_dir'] do
   repository node['logstash']['kibana']['repo']
-  reference kibana_version
+  reference node['logstash']['kibana']['reference']
   action :sync
   user node['logstash']['user']
   group node['logstash']['group']
 end
 
 link "#{node['logstash']['basedir']}/kibana/current" do
-  to "#{node['logstash']['basedir']}/kibana/#{kibana_version}"
+  to node['logstash']['kibana']['install_dir']
   notifies :restart, "service[apache2]"
 end
 
@@ -45,7 +41,7 @@ template "#{node['apache']['dir']}/sites-available/kibana" do
             :server_name => node['logstash']['kibana']['server_name'])
 end
 
-case kibana_version
+case node['logstash']['kibana']['reference']
 when "php-deprecated"
   include_recipe "logstash::kibana-php"
 when "kibana-ruby"
