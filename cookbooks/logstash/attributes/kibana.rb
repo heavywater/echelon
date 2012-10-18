@@ -7,6 +7,3 @@ default['apache']['default_site_enabled'] = false
 kibana_version = node['logstash']['kibana']['reference']
 default['logstash']['kibana']['install_dir'] = "#{node['logstash']['basedir']}/kibana/#{kibana_version}"
 
-default['logstash']['agent']['inputs'] = []
-default['logstash']['agent']['filters'] = []
-default['logstash']['agent']['outputs'] = []
