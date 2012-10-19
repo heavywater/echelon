@@ -20,16 +20,18 @@
 
 # COOK-1016 Handle RHEL/CentOS namings of python packages, by installing EPEL repo & package
 # This implementation was determined a stopgap measure until CHEF-2410 is implemented and widespread.
-if node['platform'] == 'centos' || node['platform'] == 'redhat'
+if ['centos','redhat'].include? node['platform']
   major_version = node['platform_version'].split('.').first.to_i
   if major_version == 5
     include_recipe 'yum::epel'
   else
     # Do nothing.
   end
+elsif ['ubuntu','debian'].include? node['platform']
+  execute "apt-get update"
 end
 
-python_pkgs = if node['platform'] == 'centos' || node['platform'] == 'redhat'
+python_pkgs = if ['centos','redhat'].include? node['platform']
                 major_version = node['platform_version'].split('.').first.to_i
                 if major_version == 6
                   ["python", "python-devel"]
@@ -50,9 +52,6 @@ python_pkgs = if node['platform'] == 'centos' || node['platform'] == 'redhat'
                                    "default" => ["python","python-dev"]
                                    )
               end
-
 python_pkgs.each do |pkg|
-  package pkg do
-    action :install
-  end
+  package pkg
 end
