@@ -16,6 +16,14 @@ default['logstash']['server']['install_rabbitmq'] = true
 
 # roles/flags for various autoconfig/discovery components
 default['logstash']['server']['enable_embedded_es'] = true
-default['logstash']['server']['inputs'] = []
+default['logstash']['server']['inputs'] = [
+  {
+    'amqp' => {
+      'host' => node.logstash.agent.server_ipaddress,
+      'type' => 'logstash',
+      'exchange' => 'logstash'
+     }
+  }
+]
 default['logstash']['server']['filters'] = []
 default['logstash']['server']['outputs'] = []

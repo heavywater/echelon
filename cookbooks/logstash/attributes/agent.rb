@@ -15,8 +15,15 @@ default['logstash']['agent']['debug'] = false
 default['logstash']['agent']['server_role'] = "logstash_server"
 
 # for use in case recipe used w/ chef-solo, default to self
-default['logstash']['agent']['server_ipaddress'] = "127.0.0.1"
+default['logstash']['agent']['server_ipaddress'] = "localhost"
 
 default['logstash']['agent']['inputs'] = []
 default['logstash']['agent']['filters'] = []
-default['logstash']['agent']['outputs'] = [ { 'elasticsearch' =>{ 'embedded' => true }}]
+default['logstash']['agent']['outputs'] = [
+  { 'amqp' => {
+  'host' => node.logstash.agent.server_ipaddress,
+  'name' => 'logstash',
+  'exchange_type' => 'fanout'
+   }
+}
+]
