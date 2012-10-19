@@ -1,4 +1,5 @@
 include_recipe "unicorn"
+include_recipe "logstash::firewall"
 
 unicorn_config '/etc/unicorn/kibana.app' do
   listen '5601' => {:backlog => 100}
@@ -10,4 +11,4 @@ unicorn_config '/etc/unicorn/kibana.app' do
   group 'root'
 end
 
-#runit_service "kibana"
+runit_service "kibana"

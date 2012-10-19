@@ -1,0 +1,1 @@
+-A FWR -p tcp -m tcp -m state --state NEW --dport <%= node.logstash.kibana.port  %> -j ACCEPT -m comment --comment "Kibana sinatra app, running in Unicorn"

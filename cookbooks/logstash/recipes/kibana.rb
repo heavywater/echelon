@@ -22,6 +22,7 @@ directory node['logstash']['kibana']['install_dir'] do
   group node['logstash']['group']
   recursive true
 end
+
 git node['logstash']['kibana']['install_dir'] do
   repository node['logstash']['kibana']['repo']
   reference node['logstash']['kibana']['reference']

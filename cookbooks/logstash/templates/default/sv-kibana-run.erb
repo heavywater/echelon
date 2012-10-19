@@ -1,0 +1,5 @@
+#!/bin/sh
+exec 2>&1
+cd <%= node.logstash.kibana.install_dir %>
+export RACK_ENV=<%= node.chef_environment %>
+exec chpst -u <%= "#{node.logstash.user}:#{node.logstash.group}" %> -l <%= node.logstash.kibana.install_dir %>/lock -- unicorn -c /etc/unicorn/kibana.app config.ru --env <%= node.chef_environment %>
