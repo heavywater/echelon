@@ -23,7 +23,7 @@
     "check_zombies": {
       "publish": false,
       "notification": "zombie processes piling up",
-      "command": "/etc/sensu/plugins/processes/check-procs -s Z -w 5 -c 10",
+      "command": "/etc/sensu/plugins/check-procs -s Z -w 5 -c 10",
       "subscribers": [
         "sensu_client"
       ],
@@ -33,7 +33,7 @@
     },
     "check_procs_sshd": {
       "notification": "sshd daemon is not running.",
-      "command": "/etc/sensu/plugins/processes/check-procs -p '/usr/sbin/sshd' -C 1",
+      "command": "/etc/sensu/plugins/check-procs -p '/usr/sbin/sshd' -C 1",
       "subscribers": [
         "openssh"
       ],
