@@ -6,11 +6,11 @@ cookbook 'collectd_plugins'
 cookbook 'discovery'
 cookbook 'erlang'
 cookbook 'gdash', :git => "git://github.com/ChrisLundquist/chef-gdash.git", :branch => "echelon-update"
-cookbook 'graphite', :git => "git@github.com:ChrisLundquist/graphite.git", :branch => "firewall"
+cookbook 'graphite', :git => "git://github.com/ChrisLundquist/graphite.git", :branch => "firewall"
 cookbook 'iptables'
 cookbook 'log_rotations'
 cookbook 'logrotate'
-cookbook 'openssh'
+cookbook 'openssh', :git => "git://github.com/ChrisLundquist/openssh.git", :branch => "firewall"
 cookbook 'python'
 cookbook 'rabbitmq'
 cookbook 'redis', :git => "git://github.com/miah/chef-redis.git"
