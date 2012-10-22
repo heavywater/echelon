@@ -12,7 +12,7 @@ Vagrant::Config.run do |config|
     echelon.vm.forward_port 9292, 9292
     echelon.vm.provision :chef_solo do |chef|
       chef.data_bags_path = "data_bags"
-      chef.cookbooks_path = "cookbooks"
+#      chef.cookbooks_path = "cookbooks"
       chef.roles_path = "roles"
       chef.add_role "echelon"
     end

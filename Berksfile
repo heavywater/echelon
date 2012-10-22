@@ -1,11 +1,11 @@
 cookbook 'apache2'
 cookbook 'apt'
 cookbook 'build-essential'
-cookbook 'collectd'
+cookbook 'collectd', :git => "git://github.com/coderanger/chef-collectd.git"
 cookbook 'collectd_plugins'
 cookbook 'discovery'
 cookbook 'erlang'
-cookbook 'gdash'
+cookbook 'gdash', :git => "git://github.com/heavywater/chef-gdash.git"
 cookbook 'graphite'
 cookbook 'iptables'
 cookbook 'log_rotations'
@@ -13,7 +13,7 @@ cookbook 'logrotate'
 cookbook 'openssh'
 cookbook 'python'
 cookbook 'rabbitmq'
-cookbook 'redis'
+cookbook 'redis', :git => "git://github.com/miah/chef-redis.git"
 cookbook 'runit'
 cookbook 'unicorn'
 cookbook 'sensu'
