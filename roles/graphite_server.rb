@@ -6,3 +6,6 @@ run_list [
           "recipe[iptables]",
           "recipe[graphite::firewall]",
          ]
+
+override_attributes  'graphite' => { 'listen_port' => 9001 }
+
