@@ -1,7 +1,7 @@
 cookbook 'apache2'
 cookbook 'apt'
 cookbook 'build-essential'
-cookbook 'collectd', :git => "git://github.com/ChrisLundquist/chef-collectd.git", :branch => "firewall"
+cookbook 'collectd', :git => "git://github.com/ChrisLundquist/chef-collectd.git", :branch => "echelon"
 cookbook 'collectd_plugins', :git => "git@github.com:ChrisLundquist/chef-collectd_plugins.git", :branch => "echelon"
 cookbook 'discovery'
 cookbook 'erlang'
